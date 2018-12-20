@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH << File.expand_path("../lib", __dir__)
+require "bundler/setup"
+require "topological_inventory/orderer/worker"
+require "topological_inventory/core/ar_helper"
+
+queue_host = ENV["QUEUE_HOST"] || "localhost"
+queue_port = ENV["QUEUE_PORT"] || 9092
+
+TopologicalInventory::Core::ArHelper.database_yaml_path = Pathname.new(__dir__).join("../config/database.yml")
+TopologicalInventory::Core::ArHelper.load_environment!
+order_worker = TopologicalInventory::Orderer::Worker.new(:host => queue_host, :port => queue_port)
+
+begin
+  Thread.new { order_worker.run }
+
+  loop { sleep 5 }
+rescue Interrupt
+  order_worker.stop
+end
