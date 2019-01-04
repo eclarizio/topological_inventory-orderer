@@ -8,7 +8,7 @@ addons:
   postgresql: '9.5'
 env:
   global:
-  - DATABASE_URL="postgresql://postgres:@localhost:5432/topological_inventory_persister_test?encoding=utf8&pool=5&wait_timeout=5"
+  - DATABASE_URL="postgresql://postgres:@localhost:5432/topological_inventory_orderer_test?encoding=utf8&pool=5&wait_timeout=5"
 before_install:
 - gem install bundler
 before_script:
