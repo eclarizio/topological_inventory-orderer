@@ -1,4 +1,3 @@
-require "inventory_refresh"
 require "manageiq-messaging"
 require "topological_inventory/orderer/logging"
 require "topological_inventory/orderer/workflow"
@@ -11,8 +10,6 @@ module TopologicalInventory
 
       def initialize(messaging_client_opts = {})
         self.messaging_client_opts = default_messaging_opts.merge(messaging_client_opts)
-
-        InventoryRefresh.logger = logger
       end
 
       def run
