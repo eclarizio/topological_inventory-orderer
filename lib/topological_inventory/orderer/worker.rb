@@ -1,7 +1,5 @@
 require "manageiq-messaging"
 require "topological_inventory/orderer/logging"
-require "topological_inventory/orderer/workflow"
-require "topological_inventory/schema"
 
 module TopologicalInventory
   module Orderer
@@ -42,10 +40,6 @@ module TopologicalInventory
         logger.error(e.message)
         logger.error(e.backtrace.join("\n"))
         nil
-      end
-
-      def schema_klass_name(name)
-        "TopologicalInventory::Schema::#{name}"
       end
 
       def queue_opts
