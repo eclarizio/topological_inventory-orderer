@@ -35,7 +35,9 @@ module TopologicalInventory
       attr_accessor :messaging_client_opts, :client
 
       def process_message(client, msg)
-        TopologicalInventory::Orderer::Workflow.new(load_persister(msg.payload), client, msg.payload).execute!
+        ServicePlan.find(msg.payload[:service_plan_id]).order(msg.payload[:order_params])
+        task = Task.find(msg.payload[:task_id])
+        task.update(:status => "completed")
       rescue => e
         logger.error(e.message)
         logger.error(e.backtrace.join("\n"))
